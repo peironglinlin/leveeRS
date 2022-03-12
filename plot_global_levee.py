@@ -53,7 +53,7 @@ def plot_levee_effect(df_levee,name='global',title='Global Levee Protected Area'
 			plt.plot([i,i], [data['global_sum_predict'][data.year_diff==i],data['global_sum'][data.year_diff==i]], color='green', linewidth=2, linestyle='dashed')
 
 	plt.xticks(range(-10,12,2))
-	plt.xlabel("Year")
+	plt.xlabel("levee construct year")
 	plt.ylabel("area (mile)")
 
 	plt.legend()
