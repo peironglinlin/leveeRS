@@ -3,7 +3,7 @@ from sklearn import linear_model
 import matplotlib.pyplot as plt
 
 # read systemId - COMID map
-df_id = pd.read_csv('./data/summary_systemId_COMID.csv')
+df_id = pd.read_csv('./data/P_systemID_year_Meng_0312.csv')
 # read levee area data
 df_levee = pd.read_csv('./data/USGS_urban_ts_by_leveearea.csv')
 
@@ -14,9 +14,9 @@ df_levee['year'] = df_levee['year'].astype(int)
 df_levee['systemId'] = df_levee['systemId'].astype(int)
 
 # 加上yearCons
-df_levee = pd.merge(df_levee,df_id[['systemId','yearCons','areakm2']],on='systemId')
-df_levee['year_diff'] = df_levee['year']-df_levee['yearCons'].astype(int)
-df_levee['levee'] = df_levee['levee']*df_levee['areakm2']/100
+df_levee = pd.merge(df_levee,df_id[['systemId','Levee_year','areaSquare(mile)']],on='systemId')
+df_levee['year_diff'] = df_levee['year']-df_levee['Levee_year'].astype(int)
+df_levee['levee'] = df_levee['levee']*df_levee['areaSquare(mile)']/100
 
 # 计算所有systemID的总和
 df_levee = df_levee.pivot_table(index='year_diff',columns='systemId',values='levee')
