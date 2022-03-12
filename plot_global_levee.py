@@ -45,8 +45,6 @@ def plot_levee_effect(df_levee,name='global',title='Global Levee Protected Area'
 	plt.plot(data[data.year_diff>=0]['year_diff'], data[data.year_diff>=0]['global_sum_predict'], color='blue', linewidth=3,label='without levee effct')
 	plt.plot([0,0], [data['global_sum'].min(),data['global_sum'].max()], color='grey', linewidth=3, linestyle='dashed')
 	plt.title(title)
-	plt.xlim([data['year_diff'].min()-1, data['year_diff'].max()+1])
-	plt.ylim([data['global_sum'].min()-10, data['global_sum'].max()+10])
 
 	for i in range(1,11):
 		if i==1:
@@ -55,9 +53,12 @@ def plot_levee_effect(df_levee,name='global',title='Global Levee Protected Area'
 			plt.plot([i,i], [data['global_sum_predict'][data.year_diff==i],data['global_sum'][data.year_diff==i]], color='green', linewidth=2, linestyle='dashed')
 
 	plt.xticks(range(-10,12,2))
+	plt.xlabel("Year")
+	plt.ylabel("area (mile)")
 
 	plt.legend()
 	plt.savefig('plots/%s.png'%name,dpi=500)
+	plt.close()
 
 if __name__=='__main__':
 

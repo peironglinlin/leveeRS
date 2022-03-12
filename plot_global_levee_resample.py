@@ -26,6 +26,7 @@ def resample():
 	plt.ylabel("# of Levees")
 
 	plt.savefig('plots/yearConst_resampled_hist.png',dpi=500)
+	plt.close()
 
 	return df.systemId.tolist()
 
