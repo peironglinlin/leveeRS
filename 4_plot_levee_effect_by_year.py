@@ -3,7 +3,7 @@ from sklearn import linear_model
 import matplotlib.pyplot as plt
 import numpy as np
 
-def calc_levee_effect(df):
+def calc_levee_effect_m1(df):
 
 	# 计算所有systemID的总和
 	df = df.pivot_table(index='year_diff',columns='systemId',values=['levee_urban','county_urban'])
@@ -28,6 +28,21 @@ def calc_levee_effect(df):
 	except:
 		return np.nan
 
+def calc_levee_effect_m2(df):
+
+	# 计算所有systemID的总和
+	df = df.pivot_table(index='year_diff',columns='systemId',values=['levee_urban','county_urban'])
+	df['levee_urban_sum'] = df['levee_urban'].sum(axis=1)
+	df['county_urban_sum'] = df['county_urban'].sum(axis=1)
+
+	df = df[['county_urban_sum','levee_urban_sum']].reset_index()
+
+	try:
+		return (df['levee_urban_sum'][df.year_diff>0].mean()/df['levee_urban_sum'][df.year_diff<0].mean() - \
+						df['county_urban_sum'][df.year_diff>0].mean()/df['county_urban_sum'][df.year_diff<0].mean())*100
+	except:
+		return np.nan
+
 if __name__=='__main__':
 	df = pd.read_csv('processed_data/processed_levee_county_combined.csv')
 
@@ -35,7 +50,7 @@ if __name__=='__main__':
 	y = []
 
 	for year in x:
-		y.append(calc_levee_effect(df[df.levee_year==year]))
+		y.append(calc_levee_effect_m2(df[df.levee_year==year]))
 
 
 	plt.plot(x, y, color='red', linewidth=3,label='levee effect')
