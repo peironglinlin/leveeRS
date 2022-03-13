@@ -16,4 +16,9 @@ if __name__=='__main__':
 	x = df.groupby('systemId').apply(calc_levee_effect_m1)
 	x = x.reset_index()
 	x.columns = ['systemId','levee_effect']
+
+	df1 = pd.read_csv('data/COMID_systemID_intersection.csv')
+	df1 = df1[['systemId','levee_areasqkm']].drop_duplicates()
+
+	x = pd.merge(x,df1,on='systemId',how='left')
 	x.to_csv('processed_data/5_levee_effect_foreach.csv',index=False)
