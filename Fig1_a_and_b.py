@@ -46,7 +46,7 @@ def plot_levee_effect(df):
 	xticks = [str(i) for i in range(-10,11,2)]
 	xticks[5]='T0'
 
-	fig, axs = plt.subplots(2,figsize=(16,7))
+	fig, axs = plt.subplots(2,figsize=(16,5))
 
 	# 画protected area with levee
 	axs[0]=plt.subplot(121)
@@ -56,7 +56,7 @@ def plot_levee_effect(df):
 	axs[0].plot(df[df.year_diff<=0]['year_diff'], df[df.year_diff<=0]['levee_urban_sum_predict'], color='blue', linewidth=3, linestyle='dashed')
 	axs[0].plot(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['levee_urban_sum_predict'], color='blue', linewidth=3,label='Predicted')
 	axs[0].axvline(x=0, color='grey', linewidth=3,alpha=0.2)
-	axs[0].set_title('Urban expansion in all levee protected floodplains', fontsize=22, pad=11)
+	axs[0].set_title('Urbanization in levee protected floodplains', fontsize=25, pad=11)
 
 	# axs[0].fill_between(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['levee_urban_sum_predict'], df[df.year_diff>=0]['levee_urban_sum'],
  #                 facecolor='green', alpha=0.5, interpolate=True)
@@ -75,18 +75,18 @@ def plot_levee_effect(df):
 
 	axs[0].set_xticks(range(-10,12,2))
 	#axs[0].set_xlabel("Year constructed")
-	axs[0].set_ylabel("Urban area ($10^3$$km^2$)", fontsize=20)
+	axs[0].set_ylabel("Urban area ($10^3$$km^2$)", fontsize=25)
     
 	axs[0].tick_params(axis='x', labelsize=20)
 	axs[0].tick_params(axis='y', labelsize=20)
 	#axs[0].legend(loc='upper center', bbox_to_anchor=(0.5, 1.05), ncol=3, fancybox=True, shadow=True)
 	# axs[0].text(1,3.3,r"\frac{K_{observed}}{K_{predicted}}=1.36", fontsize=20))
 	# 这里微调公式
-	axs[0].text(1.3,3.3,r"$K_{observed}$", fontsize=15,color='red',horizontalalignment='center')
-	axs[0].text(1.3,3.25,r"$K_{predicted}$", fontsize=15,color='blue',horizontalalignment='center')
-	axs[0].plot([0.2,2.4],[3.28,3.28],color='black')
-	axs[0].text(2.5,3.27,r"=1.36", fontsize=15,color='black',horizontalalignment='left')
-	axs[0].text(0,2.65,"construction year", fontsize=15,horizontalalignment='center',color='blue')
+	axs[0].text(-5.9,3.3,r"$K_{observed}$", fontsize=25,color='red',horizontalalignment='center')
+	axs[0].text(-5.9,3.18,r"$K_{predicted}$", fontsize=25,color='blue',horizontalalignment='center')
+	axs[0].plot([-8.1,-3.5],[3.27,3.27],color='black')
+	axs[0].text(-3,3.24,r"=1.36", fontsize=25,color='black',horizontalalignment='left')
+	axs[0].text(0,2.65,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
 	axs[0].arrow(0,2.6,0,-0.08,head_width=0.3, head_length=0.03, linewidth=4,color='blue')
 
 
@@ -97,8 +97,8 @@ def plot_levee_effect(df):
 	# 画protected area without levee
 	axs[1].plot(df[df.year_diff<=0]['year_diff'], df[df.year_diff<=0]['county_urban_sum_predict'], color='blue', linewidth=3, linestyle='dashed')
 	axs[1].plot(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['county_urban_sum_predict'], color='blue', linewidth=3,label='Predicted')
-	axs[0].axvline(x=0, color='grey', linewidth=3,alpha=0.2)
-	axs[1].set_title('Urban expansion in all counties', fontsize=22, pad=11)
+	axs[1].axvline(x=0, color='grey', linewidth=3,alpha=0.2)
+	axs[1].set_title('Urbanization in counties', fontsize=22, pad=11)
 
 	# axs[1].fill_between(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['county_urban_sum_predict'], df[df.year_diff>=0]['county_urban_sum'],
  #                 facecolor='green', alpha=0.5, interpolate=True)
@@ -116,22 +116,22 @@ def plot_levee_effect(df):
 
 	axs[1].set_xticks(range(-10,12,2))
 	#axs[1].set_xlabel("Before  After  ", fontsize=13)
-	axs[1].set_ylabel("Urban area ($10^3$$km^2$)", fontsize=20)
+	axs[1].set_ylabel("Urban area ($10^3$$km^2$)", fontsize=25)
     
 	axs[1].tick_params(axis='x', labelsize=20)
 	axs[1].tick_params(axis='y', labelsize=20)
 
 	# plt.text(0.9,110,r"$\frac{K_{observed}}{K_{predicted}}$=1.12", fontsize=20)
 	# 这里微调公式
-	axs[1].text(1.3,110.8,r"$K_{observed}$", fontsize=15,color='red',horizontalalignment='center')
-	axs[1].text(1.3,109,r"$K_{predicted}$", fontsize=15,color='blue',horizontalalignment='center')
-	axs[1].plot([0.2,2.4],[110,110],color='black')
-	axs[1].text(2.5,109.8,r"=1.12", fontsize=15,color='black',horizontalalignment='left')
-	axs[1].text(0,89,"construction year", fontsize=15,horizontalalignment='center',color='blue')
+	axs[1].text(-5.9,110,r"$K_{observed}$", fontsize=25,color='red',horizontalalignment='center')
+	axs[1].text(-5.9,106,r"$K_{predicted}$", fontsize=25,color='blue',horizontalalignment='center')
+	axs[1].plot([-8.1,-3.5],[108.8,108.8],color='black')
+	axs[1].text(-3,108,r"=1.12", fontsize=25,color='black',horizontalalignment='left')
+	axs[1].text(0,89,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
 	axs[1].arrow(0,87,0,-3,head_width=0.3, head_length=1, linewidth=4,color='blue')
 
 	# plt.show()  
-	plt.tight_layout() 
+	plt.tight_layout(pad=3) 
 	plt.savefig('plots/Fig1_a_and_b.pdf')
 	plt.close()
 

@@ -46,7 +46,7 @@ def plot_levee_effect_percent(df):
 	xticks = [str(i) for i in range(-10,11,2)]
 	xticks[5]='T0'
 
-	fig, axs = plt.subplots(2,figsize=(16,7))
+	fig, axs = plt.subplots(2,figsize=(16,5))
 
 	# 画protected area with levee
 	axs[0]=plt.subplot(121)
@@ -56,15 +56,16 @@ def plot_levee_effect_percent(df):
 	axs[0].plot(df[df.year_diff<=0]['year_diff'], df[df.year_diff<=0]['levee_urban_percent_predict'], color='blue', linewidth=3, linestyle='dashed')
 	axs[0].plot(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['levee_urban_percent_predict'], color='blue', linewidth=3,label='Predicted')
 	# axs[0].plot([0,0], [df['levee_urban_percent_predict'].min(),df['levee_urban_percent_predict'].max()], color='grey', linewidth=3, linestyle='dashed')
-	axs[0].set_title('levee urban fraction (%)', fontsize=20, pad=11)
+	axs[0].set_title(r"$\frac{F_{urban,floodplain}}{F_{urban,county}}$", fontsize=25, pad=11)
 
 	axs[0].axvspan(-11, 0, facecolor='green', alpha=0.2)
 	axs[0].axvspan(0, 11, facecolor='yellow', alpha=0.2)
 	axs[0].axvline(x=0, color='grey', linewidth=3,alpha=0.2)
 	axs[0].set_xlim(-11, 11)
+	axs[0].set_ylim(2.8, 3.2)
 	axs[0].set_xticks([i for i in range(-10,11,2)])
 	axs[0].set_xticklabels(xticks)
-	axs[0].text(0,2.88,"construction year", fontsize=15,horizontalalignment='center',color='blue')
+	axs[0].text(0,2.88,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
 	axs[0].arrow(0,2.87,0,-0.03,head_width=0.3, head_length=0.01, linewidth=4,color='blue')
 
 	for i in range(1,11):
@@ -77,7 +78,7 @@ def plot_levee_effect_percent(df):
 	# axs[0].set_ylabel("%", fontsize=13)
 	axs[0].tick_params(axis='x', labelsize=20)
 	axs[0].tick_params(axis='y', labelsize=20)
-	axs[0].legend(fontsize=18)
+	axs[0].legend(fontsize=25)
 	# axs[0].legend(loc='lower center', bbox_to_anchor=(0.46, -0.3), ncol=1,fontsize=16, frameon=False)
 	axs[0].tick_params(axis='x', colors='black',labelsize=20)
 	axs[0].tick_params(axis='y', colors='black',labelsize=20)
@@ -87,17 +88,18 @@ def plot_levee_effect_percent(df):
 	axs[1].plot(df['year_diff'], df['levee_diff'], color='tab:blue', linewidth=3,label='urban expansion rate')
 	axs[1].scatter(df['year_diff'], df['levee_diff'],alpha=0.5,marker='o',facecolors='none', edgecolors='tab:blue',linewidth=3)
 	# axs[1].plot([0,0], [df['levee_diff'].min(),df['levee_diff'].max()], color='grey', linewidth=3, linestyle='dashed')
-	axs[1].set_title('levee urban expansion rate (%)', fontsize=20, pad=11)
+	axs[1].set_title('levee urban expansion rate (%)', fontsize=25, pad=11)
 	axs[1].plot([df['year_diff'].min(),df['year_diff'].max()], [0,0], color='black', linewidth=1,linestyle='dashed')
 
 	axs[1].axvspan(-11, 0, facecolor='green', alpha=0.2)
 	axs[1].axvspan(0, 11, facecolor='yellow', alpha=0.2)
 	axs[1].axvline(x=0, color='grey', linewidth=3,alpha=0.2)
 	axs[1].set_xlim(-11, 11)
+	axs[1].set_ylim(-0.2, 5.2)
 	axs[1].set_xticks([i for i in range(-10,11,2)])
 	axs[1].set_xticklabels(xticks)
-	axs[1].text(0,3,"construction year", fontsize=15,horizontalalignment='center',color='blue')
-	axs[1].arrow(0,2.85,0,-0.7,head_width=0.3, head_length=0.1, linewidth=4,color='blue')
+	axs[1].text(0,2.8,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
+	axs[1].arrow(0,2.65,0,-0.7,head_width=0.3, head_length=0.1, linewidth=4,color='blue')
 
 	for i in range(1,11):
 		if i==1:
@@ -109,11 +111,11 @@ def plot_levee_effect_percent(df):
 	# axs[1].set_ylabel("%", fontsize=13)
 	axs[1].tick_params(axis='x', labelsize=20)
 	axs[1].tick_params(axis='y', labelsize=20)
-	axs[1].legend(fontsize=18)
+	axs[1].legend(fontsize=25)
 	# axs[1].legend(loc='lower center', bbox_to_anchor=(0.48, -0.28), ncol=1,fontsize=16, frameon=False)
 	axs[1].tick_params(axis='x', colors='black',labelsize=20)
 	axs[1].tick_params(axis='y', colors='black',labelsize=20)
-	plt.tight_layout()
+	plt.tight_layout(pad=3)
 	plt.savefig('plots/Fig1_d_and_e.pdf')
 	#plt.close()
 
