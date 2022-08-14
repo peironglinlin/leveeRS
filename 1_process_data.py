@@ -6,7 +6,7 @@ if __name__=='__main__':
 	df1 = df1[['systemId','COMID','county_areasqkm','levee_areasqkm']].drop_duplicates()
 
 	# 加载每个systemId的levee建造年份
-	df2 = pd.read_csv('./data/P_systemID_year_Meng_0312.csv')
+	df2 = pd.read_csv('./data/P_systemID_year_0813.csv')
 	df2 = df2[['systemId','Levee_year']].drop_duplicates()
 
 	df = pd.merge(df1,df2,on='systemId')
