@@ -36,6 +36,22 @@ def linear_predict(df):
 		df['%s_predict'%c] = regr.predict(df[['year_diff']])
 	return df
 
+def slope_ratio(df,name='levee'):
+	"""
+	用 没有levee前的时间序列 [预测] 建造levee后的时间序列
+	"""
+	df1 = df[df.year_diff<0]
+	df2 = df[df.year_diff>0]
+
+	regr = linear_model.LinearRegression()
+	regr.fit(df1[['year_diff']], df1['%s_urban_sum'%name])
+	s1 = regr.coef_
+	regr = linear_model.LinearRegression()
+	regr.fit(df2[['year_diff']], df2['%s_urban_sum'%name])
+	s2 = regr.coef_
+		
+	return s2/s1
+
 def plot_levee_effect(df):
 	# 用 没有levee前的时间序列 [预测] 建造levee后的时间序列
 	df = linear_predict(df)
@@ -82,10 +98,10 @@ def plot_levee_effect(df):
 	#axs[0].legend(loc='upper center', bbox_to_anchor=(0.5, 1.05), ncol=3, fancybox=True, shadow=True)
 	# axs[0].text(1,3.3,r"\frac{K_{observed}}{K_{predicted}}=1.36", fontsize=20))
 	# 这里微调公式
-	axs[0].text(-5.9,3.3,r"$K_{observed}$", fontsize=25,color='red',horizontalalignment='center')
-	axs[0].text(-5.9,3.18,r"$K_{predicted}$", fontsize=25,color='blue',horizontalalignment='center')
-	axs[0].plot([-8.1,-3.5],[3.27,3.27],color='black')
-	axs[0].text(-3,3.24,r"=1.36", fontsize=25,color='black',horizontalalignment='left')
+	axs[0].text(-5.9,3.6,r"$K_{observed}$", fontsize=25,color='red',horizontalalignment='center')
+	axs[0].text(-5.9,3.45,r"$K_{predicted}$", fontsize=25,color='blue',horizontalalignment='center')
+	axs[0].plot([-8.1,-3.5],[3.56,3.56],color='black')
+	axs[0].text(-3,3.52,r'=%.2f'%slope_ratio(df,name='levee'), fontsize=25,color='black',horizontalalignment='left')
 	axs[0].text(0,2.65,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
 	axs[0].arrow(0,2.6,0,-0.08,head_width=0.3, head_length=0.03, linewidth=4,color='blue')
 
@@ -123,10 +139,10 @@ def plot_levee_effect(df):
 
 	# plt.text(0.9,110,r"$\frac{K_{observed}}{K_{predicted}}$=1.12", fontsize=20)
 	# 这里微调公式
-	axs[1].text(-5.9,110,r"$K_{observed}$", fontsize=25,color='red',horizontalalignment='center')
-	axs[1].text(-5.9,106,r"$K_{predicted}$", fontsize=25,color='blue',horizontalalignment='center')
-	axs[1].plot([-8.1,-3.5],[108.8,108.8],color='black')
-	axs[1].text(-3,108,r"=1.12", fontsize=25,color='black',horizontalalignment='left')
+	axs[1].text(-5.9,120,r"$K_{observed}$", fontsize=25,color='red',horizontalalignment='center')
+	axs[1].text(-5.9,115,r"$K_{predicted}$", fontsize=25,color='blue',horizontalalignment='center')
+	axs[1].plot([-8.1,-3.5],[118.8,118.8],color='black')
+	axs[1].text(-3,117.8,r'=%.2f'%slope_ratio(df,name='county'), fontsize=25,color='black',horizontalalignment='left')
 	axs[1].text(0,89,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
 	axs[1].arrow(0,87,0,-3,head_width=0.3, head_length=1, linewidth=4,color='blue')
 

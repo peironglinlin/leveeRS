@@ -56,17 +56,18 @@ def plot_levee_effect_percent(df):
 	axs[0].plot(df[df.year_diff<=0]['year_diff'], df[df.year_diff<=0]['levee_urban_percent_predict'], color='blue', linewidth=3, linestyle='dashed')
 	axs[0].plot(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['levee_urban_percent_predict'], color='blue', linewidth=3,label='Predicted')
 	# axs[0].plot([0,0], [df['levee_urban_percent_predict'].min(),df['levee_urban_percent_predict'].max()], color='grey', linewidth=3, linestyle='dashed')
-	axs[0].set_title(r"$\frac{F_{urban,floodplain}}{F_{urban,county}}$", fontsize=25, pad=11)
+	# axs[0].set_title(r"$\frac{U_{p}}{U_{c}}$", fontsize=25, pad=11)
+	axs[0].set_title(r"${U_{p}}/{U_{c}}$ ratio", fontsize=25, pad=11)
 
 	axs[0].axvspan(-11, 0, facecolor='green', alpha=0.2)
 	axs[0].axvspan(0, 11, facecolor='yellow', alpha=0.2)
 	axs[0].axvline(x=0, color='grey', linewidth=3,alpha=0.2)
 	axs[0].set_xlim(-11, 11)
-	axs[0].set_ylim(2.8, 3.2)
+	axs[0].set_ylim(2.8, 3.4)
 	axs[0].set_xticks([i for i in range(-10,11,2)])
 	axs[0].set_xticklabels(xticks)
-	axs[0].text(0,2.88,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
-	axs[0].arrow(0,2.87,0,-0.03,head_width=0.3, head_length=0.01, linewidth=4,color='blue')
+	axs[0].text(0,2.87,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
+	axs[0].arrow(0,2.86,0,-0.03,head_width=0.3, head_length=0.01, linewidth=4,color='blue')
 
 	for i in range(1,11):
 		if i==1:
