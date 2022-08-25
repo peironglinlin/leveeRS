@@ -55,18 +55,21 @@ if __name__=='__main__':
     for nstep in range(3,11,2):
         df = pd.read_csv('processed_data/processed_levee_county_combined.csv')
         df = pd.merge(df,dfx[['systemId','Levee_year']],on=['systemId'],how='left')
+        list_df = [df]
 
         for i in range(int(nstep/2)):
             df1 = df.copy()
             df1['Levee_year'] = df1['Levee_year']-i-1
             df2 = df.copy()
             df2['Levee_year'] = df2['Levee_year']+i+1
-            df = pd.concat([df,df1,df2])
-        df.loc[df.Levee_year<min_y] = min_y
-        df.loc[df.Levee_year>max_y] = max_y
+            list_df = list_df+[df1,df2]
+        df = pd.concat(list_df, ignore_index=True)
+        df.loc[df.Levee_year<min_y,'Levee_year'] = min_y
+        df.loc[df.Levee_year>max_y,'Levee_year'] = max_y
 
-        # df = df.groupby(['year_diff','Levee_year'])[['levee_urban','county_urban','levee_area','county_area']].apply(np.sum).reset_index()
-        # df.to_csv('processed_data/cons_year_urban.csv',index=False)
+        df = df.groupby(['year_diff','Levee_year'])[['levee_urban','county_urban','levee_area','county_area']].apply(np.sum).reset_index()
+
+        df.to_csv('processed_data/cons_year_urban_%syr.csv'%nstep,index=False)
 
         # 计算 state level的levee effect
         df_output = calc_cons_year_levee_effect(df)
