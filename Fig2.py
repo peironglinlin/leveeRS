@@ -79,6 +79,7 @@ def plot_state(ax=ax):
 	df0 = gpd.GeoDataFrame(df0,geometry=df0.geometry.centroid)
 	df0.plot(ax=ax,marker='o',markersize=8,color='black')
 	ax.text(-128,53,'e',fontsize=25,weight='bold')
+	ax.text(-105,53,'State',fontsize=20)
 
 for iii,ii in enumerate([2,4,6,8]):
 	hucnow = 'HUC%s'%ii
@@ -139,6 +140,7 @@ for iii,ii in enumerate([2,4,6,8]):
 	df = gpd.read_file('data/HUC_and_County/HUC%s.shp'%ii)
 	df.plot(ax=ax.flat[iii],edgecolor='darkgreen',facecolor='none',linewidth=0.1) #,alpha=0.01)
 	ax.flat[iii].text(-128,53,'abcd'[iii],fontsize=25,weight='bold')
+	ax.flat[iii].text(-105,53,'HUC%s'%ii,fontsize=20)
 	# #read river network data
 	# df1 = gpd.read_file('data/shapefile/USA_Major_Rivers_CONUS.shp')
 	# df1.plot(ax=ax.flat[iii],color='blue',linewidth=0.5) #
@@ -149,6 +151,6 @@ plot_state(ax=ax.flat[4])
 
 plt.tight_layout()
 fon = 'plot_le_by_watershed.jpg'
-fig.savefig(fon,dpi=500)
+fig.savefig(fon,dpi=800)
 print('... plotting to %s ...'%fon)
 # plt.close()
