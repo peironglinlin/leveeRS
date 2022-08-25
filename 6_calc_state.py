@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import statsmodels.api as sm
 
 states = {
     'AK': 'Alaska',
@@ -81,6 +82,27 @@ def calc_state_levee_effect(df):
     df0['state'] = df0['STATE'].map(states)
     return df0
 
+def _regr(df):
+    X = sm.add_constant(np.array([[i] for i in range(len(df))]))
+    est1 = sm.OLS(df['levee_urban'].values, X).fit()
+    est2 = sm.OLS(df['county_urban'].values, X).fit()
+    return pd.Series({'k_levee':est1.params[1],'p_levee':est1.f_pvalue,'k_county':est2.params[1],'p_county':est2.f_pvalue})
+
+
+def calc_state_levee_effect_regr(df):
+    df1 = df[df['year_diff']<0].groupby('STATE')[['levee_urban','county_urban']]\
+            .apply(_regr)\
+            .reset_index()\
+            .rename(columns={'k_levee':'k_levee_1','p_levee':'p_levee_1','k_county':'k_county_1','p_county':'p_county_1'})
+    df2 = df[df['year_diff']>0].groupby('STATE')[['levee_urban','county_urban']]\
+            .apply(_regr)\
+            .reset_index()\
+            .rename(columns={'k_levee':'k_levee_2','p_levee':'p_levee_2','k_county':'k_county_2','p_county':'p_county_2'})
+
+    df0 = df1.merge(df2,on='STATE')
+    df0['state'] = df0['STATE'].map(states)
+    return df0
+
 if __name__=='__main__':
     df = pd.read_csv('processed_data/processed_levee_county_combined.csv')
 
@@ -116,6 +138,10 @@ if __name__=='__main__':
     # 计算 state level的levee effect
     df_output = calc_state_levee_effect(df)
     df_output.to_csv('processed_data/state_levee_effect.csv',index=False)
+
+    # 计算 state level的levee effect using linear regression
+    df_output = calc_state_levee_effect_regr(df)
+    df_output.to_csv('processed_data/state_levee_effect_regr.csv',index=False)
 
 	
 
