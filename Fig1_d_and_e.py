@@ -7,10 +7,12 @@ import matplotlib.pyplot as plt
 
 pgf_with_latex = {
     "text.usetex": True,            # use LaTeX to write all text
-    "pgf.rcfonts": False,           # Ignore Matplotlibrc
+    "pgf.rcfonts": True,           # Ignore Matplotlibrc
     "pgf.preamble": [
         r'\usepackage{color}'     # xcolor for colours
-    ]
+    ],
+    'font.family':"sans-serif",
+    'font.sans-serif': 'Arial'
 }
 matplotlib.rcParams.update(pgf_with_latex)
 
