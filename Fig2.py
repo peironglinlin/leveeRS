@@ -24,12 +24,12 @@ colors = matplotlib.cm.seismic(np.linspace(0, 1, 20))
 for i in ax.flat:
 	i.axis('off')
 
-ax[2][1].scatter([0.3],[10],color=colors[18],label=r"$e_{s}$>1")
-ax[2][1].scatter([0.3],[10],color=colors[15],label=r"$e_{s}$>=0.5")
-ax[2][1].scatter([0.3],[10],color=colors[13],label=r"$e_{s}$>=0.3")
-ax[2][1].scatter([0.3],[10],color=colors[11],label=r"$e_{s}$>=0")
-ax[2][1].scatter([0.3],[10],color=colors[7],label=r"$e_{s}$<0")
-ax[2][1].scatter([0.3],[10],color=colors[9],label='NA')
+ax[2][1].scatter([0.3],[10],color=colors[18],s=100,label=r"$e_{s}$>1")
+ax[2][1].scatter([0.3],[10],color=colors[15],s=100,label=r"$e_{s}$>=0.5")
+ax[2][1].scatter([0.3],[10],color=colors[13],s=100,label=r"$e_{s}$>=0.3")
+ax[2][1].scatter([0.3],[10],color=colors[11],s=100,label=r"$e_{s}$>=0")
+ax[2][1].scatter([0.3],[10],color=colors[7],s=100,label=r"$e_{s}$<0")
+ax[2][1].scatter([0.3],[10],color=colors[9],s=100,label='NA')
 
 ax[2][1].set_xlim(0,1)
 ax[2][1].set_ylim(0,1)
