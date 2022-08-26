@@ -24,7 +24,7 @@ if __name__=='__main__':
 	y_sig = df[df.sig==1]['method'].values
 
 	df = df.pivot(index='method', columns='Levee_year', values='levee_effect')
-	df = df.reindex(index=df.index[::-1])
+	# df = df.reindex(index=df.index[::-1])
 
 	x = np.arange(1947.5,1996.5)
 	y = np.arange(2,12,2)
