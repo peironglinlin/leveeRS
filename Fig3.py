@@ -10,6 +10,7 @@ matplotlib.rcParams['font.sans-serif'] = "Arial"
 
 if __name__=='__main__':
 	list_df = []
+	mark_years = [1968,1973,1977,1982]
 	for i in range(3,11,2):
 		df = pd.read_csv('processed_data/cons_year_levee_effect_%syr_regr.csv'%i)
 		df['levee_effect'] = (df['k_levee_2']/df['k_levee_1']-1) - (df['k_county_2']/df['k_county_1']-1)
@@ -38,6 +39,11 @@ if __name__=='__main__':
 	c = ax.pcolormesh(x, y, df.values, cmap=cmap, norm=norm)
 	ax.set_yticks([i for i in range(3,11,2)])
 	ax.set_yticklabels([str(i)+'-yr composite' for i in range(3,11,2)])
+	ax.set_ylim(2,10)
+
+	# for yr in mark_years:
+	# 	ax.axvline(yr, color='green', lw=4, alpha=0.8)
+	ax.plot(mark_years,[1.8]*4, marker="^",color='red',linestyle = 'None',markersize=10,clip_on=False)
 	# ax.plot(x_sig, y_sig, 'o', color='green')
 	fig.colorbar(c, ax=ax)
 	# plt.title('levee effect as a function of levee construction year')
