@@ -19,7 +19,7 @@ matplotlib.rcParams.update(pgf_with_latex)
 def load_data():
 	df = pd.read_csv('processed_data/processed_levee_county_combined.csv')
 
-	# 计算所有systemID的总和
+	# Calculate the sum of all systemID
 	df = df.pivot_table(index='year_diff',columns='systemId',values=['levee_urban','county_urban'])
 	df['levee_urban_sum'] = df['levee_urban'].sum(axis=1)
 	df['county_urban_sum'] = df['county_urban'].sum(axis=1)
@@ -28,7 +28,7 @@ def load_data():
 
 def linear_predict(df):
 	"""
-	用 没有levee前的时间序列 [预测] 建造levee后的时间序列
+	Estimate the time series after levee construction using the time series before no levee
 	"""
 	data_fit = df[df.year_diff<0]
 	for c in ['levee_urban_percent']:
@@ -38,23 +38,23 @@ def linear_predict(df):
 	return df
 
 def plot_levee_effect_percent(df):
-	# 用 没有levee前的时间序列 [预测] 建造levee后的时间序列
+	# Estimate the time series after levee construction using the time series before no levee
 	df = linear_predict(df)
 
-	### levee effect的计算
+	### Calculation of levee effect
 	df['levee_diff'] = (df['levee_urban_percent']-df['levee_urban_percent_predict'])*df['county_urban_sum']/df['levee_urban_sum']
 
-	# x轴的显示值
+	# Value on x axis
 	xticks = [str(i) for i in range(-10,11,2)]
 	xticks[5]='T0'
 
 	fig, axs = plt.subplots(2,figsize=(16,7.5))
 
-	# 画protected area with levee
+	# Draw protected area with levee
 	axs[0]=plt.subplot(121)
 	axs[0].plot(df['year_diff'], df['levee_urban_percent'], color='red', linewidth=3,label='Observed')
 	axs[0].scatter(df['year_diff'], df['levee_urban_percent'],alpha=0.5,marker='o',facecolors='none', edgecolors='red',linewidth=3)
-	# 画protected area without levee
+	# Draw protected area without levee
 	axs[0].plot(df[df.year_diff<=0]['year_diff'], df[df.year_diff<=0]['levee_urban_percent_predict'], color='blue', linewidth=3, linestyle='dashed')
 	axs[0].plot(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['levee_urban_percent_predict'], color='blue', linewidth=3,label='Predicted')
 	# axs[0].plot([0,0], [df['levee_urban_percent_predict'].min(),df['levee_urban_percent_predict'].max()], color='grey', linewidth=3, linestyle='dashed')
@@ -87,7 +87,7 @@ def plot_levee_effect_percent(df):
 	axs[0].tick_params(axis='x', colors='black',labelsize=20)
 	axs[0].tick_params(axis='y', colors='black',labelsize=20)
 
-	# 画protected area with levee
+	# Draw protected area with levee
 	axs[1]=plt.subplot(122)
 	axs[1].plot(df['year_diff'], df['levee_diff'], color='tab:blue', linewidth=3,label='urban expansion rate')
 	axs[1].scatter(df['year_diff'], df['levee_diff'],alpha=0.5,marker='o',facecolors='none', edgecolors='tab:blue',linewidth=3)
