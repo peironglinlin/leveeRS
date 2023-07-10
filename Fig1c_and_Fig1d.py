@@ -150,7 +150,7 @@ def plot_levee_effect(df):
 
 	#plt.show()  
 	plt.tight_layout(pad=3) 
-	plt.savefig('plots/Fig1_a_and_b.pdf', dpi=600)
+	plt.savefig('plots/Fig1_c_and_d.pdf', dpi=600)
 
 if __name__=='__main__':
 
