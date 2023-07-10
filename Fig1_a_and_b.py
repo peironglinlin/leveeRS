@@ -20,7 +20,7 @@ matplotlib.rcParams.update(pgf_with_latex)
 def load_data():
 	df = pd.read_csv('processed_data/processed_levee_county_combined.csv')
 
-	# 计算所有systemID的总和
+	# Calculate sum of all systemID
 	df = df.pivot_table(index='year_diff',columns='systemId',values=['levee_urban','county_urban'])
 	df['levee_urban_sum'] = df['levee_urban'].sum(axis=1)
 	df['county_urban_sum'] = df['county_urban'].sum(axis=1)
@@ -29,7 +29,7 @@ def load_data():
 
 def linear_predict(df):
 	"""
-	用 没有levee前的时间序列 [预测] 建造levee后的时间序列
+	Estimate the time series after levee construction using the time series before no levee
 	"""
 	data_fit = df[df.year_diff<0]
 	for c in ['levee_urban_sum','county_urban_sum']:
@@ -40,7 +40,7 @@ def linear_predict(df):
 
 def slope_ratio(df,name='levee'):
 	"""
-	用 没有levee前的时间序列 [预测] 建造levee后的时间序列
+	Estimate the time series after levee construction using the time series before no levee
 	"""
 	df1 = df[df.year_diff<0]
 	df2 = df[df.year_diff>0]
@@ -55,26 +55,26 @@ def slope_ratio(df,name='levee'):
 	return s2/s1
 
 def plot_levee_effect(df):
-	# 用 没有levee前的时间序列 [预测] 建造levee后的时间序列
+	# Estimate the time series after levee construction using the time series before no levee
 	df = linear_predict(df)
 	for c in ['levee_urban_sum','levee_urban_sum_predict','county_urban_sum','county_urban_sum_predict']:
 		df[c] = df[c]/1000
 
-	# x轴的显示值
+	# Value on x axis
 	xticks = [str(i) for i in range(-10,11,2)]
 	xticks[5]='T0'
 
 	fig, axs = plt.subplots(2,figsize=(16,5))
 
-	# 画protected area with levee
+	# Draw protected area with levee
 	axs[0]=plt.subplot(121)
 	axs[0].plot(df['year_diff'], df['levee_urban_sum'], color='red', linewidth=3,label='Observed')
 	axs[0].scatter(df['year_diff'], df['levee_urban_sum'],alpha=0.5,marker='o',facecolors='none', edgecolors='red',linewidth=3)
-	# 画protected area without levee
+	# Draw protected area without levee
 	axs[0].plot(df[df.year_diff<=0]['year_diff'], df[df.year_diff<=0]['levee_urban_sum_predict'], color='blue', linewidth=3, linestyle='dashed')
 	axs[0].plot(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['levee_urban_sum_predict'], color='blue', linewidth=3,label='Predicted')
 	axs[0].axvline(x=0, color='grey', linewidth=3,alpha=0.2)
-	axs[0].set_title('Urbanization in levee protected floodplains', fontsize=25, pad=11)
+	axs[0].set_title('Urban expansion in levee-protected floodplains', fontsize=25,fontname="Arial", pad=11)
 
 	# axs[0].fill_between(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['levee_urban_sum_predict'], df[df.year_diff>=0]['levee_urban_sum'],
  #                 facecolor='green', alpha=0.5, interpolate=True)
@@ -99,24 +99,24 @@ def plot_levee_effect(df):
 	axs[0].tick_params(axis='y', labelsize=20)
 	#axs[0].legend(loc='upper center', bbox_to_anchor=(0.5, 1.05), ncol=3, fancybox=True, shadow=True)
 	# axs[0].text(1,3.3,r"\frac{K_{observed}}{K_{predicted}}=1.36", fontsize=20))
-	# 这里微调公式
-	axs[0].text(-5.9,3.6,r"$K_{observed}$", fontsize=25,color='red',horizontalalignment='center')
-	axs[0].text(-5.9,3.45,r"$K_{predicted}$", fontsize=25,color='blue',horizontalalignment='center')
-	axs[0].plot([-8.1,-3.5],[3.56,3.56],color='black')
-	axs[0].text(-3,3.52,r'=%.2f'%slope_ratio(df,name='levee'), fontsize=25,color='black',horizontalalignment='left')
+	# Better visualization
+	axs[0].text(-6,3.62,r"$k_{p}$$(observed)$", fontsize=25,color='red',horizontalalignment='center')
+	axs[0].text(-6,3.42,r"$k_{p}$$(predicted)$", fontsize=25,color='blue',horizontalalignment='center')
+	axs[0].plot([-9,-3.2],[3.56,3.56],color='black')
+	axs[0].text(-2.7,3.5,r'=%.2f'%slope_ratio(df,name='levee'), fontsize=25,color='black',horizontalalignment='left')
 	axs[0].text(0,2.65,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
 	axs[0].arrow(0,2.6,0,-0.08,head_width=0.3, head_length=0.03, linewidth=4,color='blue')
 
 
-	# 画county
+	# Draw county
 	axs[1]=plt.subplot(122)
 	axs[1].plot(df['year_diff'], df['county_urban_sum'], color='red', linewidth=3,label='Observed')
 	axs[1].scatter(df['year_diff'], df['county_urban_sum'],alpha=0.5,marker='o',facecolors='none', edgecolors='red',linewidth=3)
-	# 画protected area without levee
+	# Draw protected area without levee
 	axs[1].plot(df[df.year_diff<=0]['year_diff'], df[df.year_diff<=0]['county_urban_sum_predict'], color='blue', linewidth=3, linestyle='dashed')
 	axs[1].plot(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['county_urban_sum_predict'], color='blue', linewidth=3,label='Predicted')
 	axs[1].axvline(x=0, color='grey', linewidth=3,alpha=0.2)
-	axs[1].set_title('Urbanization in counties', fontsize=22, pad=11)
+	axs[1].set_title('Urban expansion in counties', fontsize=25, fontname="Arial", pad=11)
 
 	# axs[1].fill_between(df[df.year_diff>=0]['year_diff'], df[df.year_diff>=0]['county_urban_sum_predict'], df[df.year_diff>=0]['county_urban_sum'],
  #                 facecolor='green', alpha=0.5, interpolate=True)
@@ -140,18 +140,17 @@ def plot_levee_effect(df):
 	axs[1].tick_params(axis='y', labelsize=20)
 
 	# plt.text(0.9,110,r"$\frac{K_{observed}}{K_{predicted}}$=1.12", fontsize=20)
-	# 这里微调公式
-	axs[1].text(-5.9,120,r"$K_{observed}$", fontsize=25,color='red',horizontalalignment='center')
-	axs[1].text(-5.9,115,r"$K_{predicted}$", fontsize=25,color='blue',horizontalalignment='center')
-	axs[1].plot([-8.1,-3.5],[118.8,118.8],color='black')
-	axs[1].text(-3,117.8,r'=%.2f'%slope_ratio(df,name='county'), fontsize=25,color='black',horizontalalignment='left')
-	axs[1].text(0,89,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
-	axs[1].arrow(0,87,0,-3,head_width=0.3, head_length=1, linewidth=4,color='blue')
+	# Better visualization
+	axs[1].text(-6,120.5,r"$k_{c}$$(observed)$", fontsize=25,color='red',horizontalalignment='center')
+	axs[1].text(-6,114.5,r"$k_{c}$$(predicted)$", fontsize=25,color='blue',horizontalalignment='center')
+	axs[1].plot([-9,-3.2],[118.8,118.8],color='black')
+	axs[1].text(-2.7,117,r'=%.2f'%slope_ratio(df,name='county'), fontsize=25,color='black',horizontalalignment='left')
+	axs[1].text(0,88,"levee construction year", fontsize=25,horizontalalignment='center',color='blue')
+	axs[1].arrow(0,86,0,-3,head_width=0.3, head_length=1, linewidth=4,color='blue')
 
-	# plt.show()  
+	#plt.show()  
 	plt.tight_layout(pad=3) 
-	plt.savefig('plots/Fig1_a_and_b.pdf')
-	plt.close()
+	plt.savefig('plots/Fig1_a_and_b.pdf', dpi=600)
 
 if __name__=='__main__':
 
