@@ -63,7 +63,7 @@ if __name__=='__main__':
         df_output = calc_watershed_levee_effect(df)
         df_output.to_csv('watershed_levee_effect_%s.csv'%lev_colname,index=False)
 
-        # 计算 watershed level的levee effect using linear regression
+        # Calculate watershed level的levee effect using linear regression
         df_output = calc_watershed_levee_effect_regr(df,by=lev_colname)
         df_output.to_csv('processed_data/watershed_levee_effect_%s_regr.csv'%lev_colname,index=False)
 
