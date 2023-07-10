@@ -45,7 +45,8 @@ if __name__=='__main__':
 	# 	ax.axvline(yr, color='green', lw=4, alpha=0.8)
 	ax.plot(mark_years,[1.8]*4, marker="^",color='red',linestyle = 'None',markersize=10,clip_on=False)
 	# ax.plot(x_sig, y_sig, 'o', color='green')
-	fig.colorbar(c, ax=ax)
+	levels2=('-2','-1.8','-1.6','-1.4','-1.2','-1','-0.8','-0.6','-0.4','-0.2','0.0','0.2','0.4','0.6','0.8','1','1.2','1.4','1.6','1.8','2')
+	fig.colorbar(c, ax=ax).set_ticklabels(levels2,fontname="Arial")
 	# plt.title('levee effect as a function of levee construction year')
 	
 	plt.tight_layout()
