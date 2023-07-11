@@ -1,17 +1,29 @@
 # leveeRS
-计算levee effect
+Python scripts for data processing and analyses of our levee project.
 
 ## 1_process_data.py
-处理数据
+Processing USGS urban data from 1938 to 2005 on two scales, county and levee-protected floodplains.
 
-## 2_plot_global_area.py
-画全国levee和county的urban area
+## Fig1c_and_Fig1d.py
+Draw the urban expansion of national counties and national levee-protected floodplains in the 10 years before and after the year of levee completion year. This code was also used to generate FigS5, but on individual state or watershed, not the national scale anymore. This code was also used to generate FigS10, the difference is the time span selection.
 
-## 3_plot_global_percentage.py
-画全国levee和county的urban area的比值
+## 7_calc_watershed.py
+Calculate the e value in each watershed.
 
-## 4_plot_levee_effect_by_year.py
-画每年的levee effect
+## 6_calc_state.py
+Calculate the e value in each state.
 
-## 5_process_levee_effect_foreach.py
-计算每一个levee的levee effect
+## Fig3.py
+Draw the temporal dynamics of the levee effect in the US. This code was also used to generate FigS9, but we removed the locations with high saturation of urban areas in the protected floodplains throughout the entire time series.
+
+## 8_calc_cons_year.py
+Calculate the e value based on the levee construction year.
+
+## FigS2.py
+Draw the histograms of the levee and dam construction completion years in the contiguous US.
+
+## FigS3.py
+Draw raw urban expansion curves of a selected county.
+
+## FigS4.py
+Draw the net effect of levee construction on floodplain urban expansion.
