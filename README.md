@@ -30,3 +30,7 @@ Draw the net effect of levee construction on floodplain urban expansion.
 
 ## Processed_data_for_Fig1c_and_Fig1d.csv
 Processed data for drawing Fig1c and Fig1d. This data contains three columns, the first column is the label for the x axis (urban expansion time series before and after the levee construction year T0), and the second and third columns are the values for the y axis (the urban area in the levee-protected floodplains and that in the counties).
+
+
+## COMID_systemID_intersection.csv
+Spatial correspondence between the levee-protected floodplain and the county.
