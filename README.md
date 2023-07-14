@@ -1,5 +1,5 @@
 # leveeRS
-Python scripts for data processing and analyses of our levee project.
+Files 1-9 are Python scripts for data processing and analyses of our levee project. The last two files are the primary data we have compiled. Please read the details for the purpose of each file.
 
 ## 1_process_data.py
 Processing USGS urban data from 1938 to 2005 on two scales, county and levee-protected floodplains.
